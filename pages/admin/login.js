@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
     LuShield,
     LuEye,
@@ -26,6 +26,7 @@ export default function AdminLogin() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -43,8 +44,8 @@ export default function AdminLogin() {
         console.log(response);
         setEmail('');
         setPassword('');
-        if (response.success) {
-            localStorage.setItem('myuser', JSON.stringify({ token: response.token, email: response.email }));
+        if (response.success && response.role === 'admin') {
+            localStorage.setItem('myuser', JSON.stringify({ token: response.token, email: response.email, role: response.role }));
             localStorage.setItem('userId', response.userId);
             toast.success('You Login to your Account Sucessfully...', {
                 position: "top-left",
@@ -63,7 +64,21 @@ export default function AdminLogin() {
             setTimeout(() => {
                 router.replace('/admin');
             }, 5000);
-        } else {
+        }
+        else if (response.success && response.role !== 'admin') {
+            toast.error("Access Denied: Not an Admin user.", {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+        else {
             toast.error(response.error, {
                 position: "top-left",
                 autoClose: 5000,
@@ -78,6 +93,8 @@ export default function AdminLogin() {
             console.log("Error in Logging: ", error);
         }
     }
+
+
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center p-4 relative overflow-hidden">

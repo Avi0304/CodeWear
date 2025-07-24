@@ -22,7 +22,13 @@ const UserSchema = new mongoose.Schema({
     },
     phone: {
         type: String
+    },
+    role: {
+        type: String,
+        enum: ['admin','customer'],
+        default: 'customer'
     }
+
 }, { timestamps: true })
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

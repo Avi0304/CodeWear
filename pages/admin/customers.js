@@ -22,6 +22,7 @@ import {
 import mongoose from 'mongoose';
 import Order from '@/models/Order';
 import Head from 'next/head';
+import withAdminAuth from '@/components/withAdminAuth';
 
 
 
@@ -309,4 +310,4 @@ export async function getServerSideProps(context) {
 }
 
 
-export default Customers;
+export default withAdminAuth(Customers);

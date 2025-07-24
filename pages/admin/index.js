@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
 import Link from 'next/link';
+import withAdminAuth from '@/components/withAdminAuth';
 
 
 const Index = ({ recentOrders, topProducts }) => {
@@ -273,4 +274,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default Index;
+export default withAdminAuth(Index);

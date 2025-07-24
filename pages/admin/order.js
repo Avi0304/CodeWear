@@ -6,6 +6,7 @@ import { LuDownload, LuEye, LuFilter } from 'react-icons/lu';
 import mongoose from 'mongoose';
 import Order from '@/models/Order';
 import Head from 'next/head';
+import withAdminAuth from '@/components/withAdminAuth';
 
 
 const AdminOrder = ({ orders }) => {
@@ -182,4 +183,4 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default AdminOrder;
+export default withAdminAuth(AdminOrder);
