@@ -7,10 +7,10 @@ const handler = async (req, res) => {
         try {
             console.log(req.body);
 
-            const {Name, email} = req.body;
+            const {Name, email, role} = req.body;
             console.log(req.body.password);
             
-            const u = new User({Name, email, password: CryptoJS.AES.encrypt(req.body.password, 'secret123').toString()})
+            const u = new User({Name, email, password: CryptoJS.AES.encrypt(req.body.password, 'secret123').toString(), role})
             await u.save();
             res.status(200).json({ message: "User added successfully." });
 

@@ -1,17 +1,40 @@
 import React, { useState } from 'react'
 import Sidebar from './sideBar'
 import { TextField, InputAdornment, Table, TableHead, TableCell, TableRow, TableBody, LinearProgress, Drop } from '@mui/material';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    MenuItem
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { LuPlus, LuStar } from 'react-icons/lu';
 import mongoose from 'mongoose';
 import Product from '@/models/Product';
 import Head from 'next/head';
+import withAdminAuth from '@/components/withAdminAuth';
 
 
 
 const Products = ({ products }) => {
 
     const [searchQuery, setSearchQuery] = useState("");
+    const [open, setOpen] = useState(false);
+    const [newProduct, setNewProduct] = useState({
+        title: '',
+        slug: "",
+        desc: "",
+        img: "",
+        category: '',
+        size: '',
+        price: '',
+        color: '',
+        avaiableQty: '',
+        status: 'stock',
+    });
+
 
 
     const getStatusColor = (status) => {
@@ -41,6 +64,31 @@ const Products = ({ products }) => {
             product.avaiableQty.toString().toLowerCase().includes(query)
         )
     })
+
+
+    const handleChange = (e) => {
+        setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        console.log("Product data in form: ", newProduct);
+        
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/addproduct`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newProduct),
+        });
+
+        if (res.ok) {
+            console.log(res);
+            setOpen(false);
+            setNewProduct({ title: '', category: '', price: '', avaiableQty: '', status: 'stock' });
+          
+        }
+    };
 
 
 
@@ -84,7 +132,7 @@ const Products = ({ products }) => {
                             }}
                         />
 
-                        <button className="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg shadow-pink-500/25 p-1.5 text-white rounded-lg flex items-center hover:cursor-pointer">
+                        <button className="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg shadow-pink-500/25 p-1.5 text-white rounded-lg flex items-center hover:cursor-pointer" onClick={() => setOpen(true)}>
                             <LuPlus className='w-4 h-4 mr-2' />
                             Add Product
                         </button>
@@ -149,6 +197,113 @@ const Products = ({ products }) => {
                         </Table>
                     </div>
                 </div>
+
+                <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
+                    <DialogTitle>Add New Product</DialogTitle>
+                    <DialogContent className="space-y-4">
+                        <TextField
+                            label="Title"
+                            name="title"
+                            fullWidth
+                            value={newProduct.title}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Slug"
+                            name="slug"
+                            fullWidth
+                            value={newProduct.slug}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Description"
+                            name="desc"
+                            fullWidth
+                            value={newProduct.desc}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Image"
+                            name="img"
+                            fullWidth
+                            value={newProduct.img}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Category"
+                            name="category"
+                            fullWidth
+                            value={newProduct.category}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                         <TextField
+                            label="Size"
+                            name="size"
+                            fullWidth
+                            value={newProduct.size}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                         <TextField
+                            label="Color"
+                            name="color"
+                            fullWidth
+                            value={newProduct.color}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Price"
+                            name="price"
+                            type="number"
+                            fullWidth
+                            value={newProduct.price}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Available Quantity"
+                            name="avaiableQty"
+                            type="number"
+                            fullWidth
+                            value={newProduct.avaiableQty}
+                            onChange={handleChange}
+                            margin='dense'
+                        />
+                        <TextField
+                            label="Status"
+                            name="status"
+                            select
+                            fullWidth
+                            value={newProduct.status}
+                            onChange={handleChange}
+                            margin='dense'
+                        >
+                            <MenuItem value="stock">Stock</MenuItem>
+                            <MenuItem value="low stock">Low Stock</MenuItem>
+                            <MenuItem value="out of stock">Out of Stock</MenuItem>
+                        </TextField>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpen(false)}>Cancel</Button>
+                        <Button onClick={handleSubmit} variant="contained" color="primary" sx={{
+                            background: 'linear-gradient(to right, #db2777, #e11d48)',
+                            color: 'white',
+                            borderRadius: 2,
+                            '&:hover': {
+                                background: 'linear-gradient(to right, #ec4899, #f43f5e)'
+                            }
+                        }}>
+                            Add
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
             </div>
         </Sidebar>
     )
@@ -165,4 +320,4 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default Products
+export default withAdminAuth(Products);

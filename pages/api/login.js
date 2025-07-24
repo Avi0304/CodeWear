@@ -19,7 +19,7 @@ const handler = async (req, res) => {
                     var token = jwt.sign({email: req.body.email, password: req.body.password}, 'secreatfortoken',{
                         expiresIn: '2d'
                     });
-                    res.status(200).json({success: true, token, userId: user._id, email: user.email});
+                    res.status(200).json({success: true, token, userId: user._id, email: user.email, role: user.role});
                 }
                 else{
                     res.status(401).json({success: false, error: "invalid Creditantions"})
