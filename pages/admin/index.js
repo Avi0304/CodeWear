@@ -180,7 +180,7 @@ const Index = ({ recentOrders, topProducts }) => {
                         className="flex items-center justify-between p-4 rounded-xl  hover:bg-gray-100/50 transition-colors"
                       >
                         <div className="flex items-center space-x-4">
-                          <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center mr-2 text-xs font-bold text-white">
+                          <div className="w-6 h-6 rounded-full bg-gradient-to-r  from-pink-400 to-rose-500 flex items-center justify-center mr-2 text-xs font-bold text-white">
                             {order.customer
                               .split(" ")
                               .map((n) => n[0])
@@ -188,7 +188,9 @@ const Index = ({ recentOrders, topProducts }) => {
                           </div>
                           <div>
                             <p className="font-semibold text-gray-900">{order.customer}</p>
-                            <p className="text-sm text-gray-500">{order.product}</p>
+                            {order.products?.map((p,i) => (
+                              <p key={i} className="text-sm text-gray-500">{p.name?.substring(0, 25)}</p>
+                            ))}
                           </div>
                         </div>
                         <div className="text-right">

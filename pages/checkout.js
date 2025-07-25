@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { loadStripe } from '@stripe/stripe-js';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import Head from 'next/head';
+
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -23,7 +25,7 @@ const Checkout = ({ userId, cart, subtotal, AddtoCart, removeFromCart }) => {
     const myuser = JSON.parse(localStorage.getItem("myuser"));
     setmyUser(myuser);
     setEmail(myuser.email);
-  },[])
+  }, [])
 
   useEffect(() => {
     if (
@@ -93,6 +95,20 @@ const Checkout = ({ userId, cart, subtotal, AddtoCart, removeFromCart }) => {
   const handlePayment = async () => {
     if (disable) return;
 
+    if (myuser.role === 'admin') {
+      toast.error("Admin are not allowed to purchases", {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+
     const stripe = await stripePromise;
 
     const res = await fetch('/api/create-checkout-session', {
@@ -142,6 +158,13 @@ const Checkout = ({ userId, cart, subtotal, AddtoCart, removeFromCart }) => {
 
   return (
     <div className='container sm:m-auto p-2'>
+      <Head>
+        <title>CoderWear.com - Checkout</title>
+        <meta name="description" content="Welcome to my Next.js application." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -242,9 +265,15 @@ const Checkout = ({ userId, cart, subtotal, AddtoCart, removeFromCart }) => {
         <span className="font-bold">SubTotal: ₹ {subtotal}</span>
 
       </div>
-      <div className="mx-4">
-        <button onClick={handlePayment} disabled={disable} className="flex mr-2 space-x-5 text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded text-sm disabled:bg-pink-400"> <AiFillShopping className='m-1' /> Pay ₹ {subtotal}</button>
-      </div>
+
+      {myuser.role !== 'admin' ? (
+        <div className="mx-4">
+          <button onClick={handlePayment} disabled={disable} className="flex mr-2 space-x-5 text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded text-sm disabled:bg-pink-400"> <AiFillShopping className='m-1' /> Pay ₹ {subtotal}</button>
+        </div>
+      ) : (
+            <p className='text-red-500 mt-4 font-semibold'>With Admins Account are not able to make purchases</p>
+      )}
+
     </div>
   )
 }

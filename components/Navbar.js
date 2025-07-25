@@ -19,6 +19,8 @@ const Navbar = ({ Logout, user, cart, AddtoCart, removeFromCart, clearCart, subt
   }
 
   useEffect(() => {
+    console.log("User is : ", user);
+    
     Object.keys(cart).length !== 0 && setSideBar(true)
 
     let exempted = ['/checkout', '/order', '/orders']
@@ -63,7 +65,7 @@ const Navbar = ({ Logout, user, cart, AddtoCart, removeFromCart, clearCart, subt
 
       <div className='cart items-center cursor-pointer absolute right-0 mx-5 top-4 flex' >
 
-        {user.value ? (
+        {user.value && user.role === 'customer' ? (
           <div className='relative' onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)}>
             <MdAccountCircle className='text-xl md:text-2xl mx-2 text-pink-600 cursor-pointer' />
             {dropdown && (

@@ -16,19 +16,27 @@ import {
   LuArrowUpRight,
   LuDownload,
   LuEye,
+  LuFileDown,
   LuIndianRupee,
+  LuSheet,
   LuUser,
 } from 'react-icons/lu';
 import mongoose from 'mongoose';
 import Order from '@/models/Order';
 import Head from 'next/head';
 import withAdminAuth from '@/components/withAdminAuth';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
 
 
 
 
 const Customers = ({ customers, stats }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const filterCustomer = customers.filter((customer) => {
     const query = searchQuery.toLowerCase();
@@ -45,6 +53,43 @@ const Customers = ({ customers, stats }) => {
       formattedDate.includes(query)
     )
   })
+
+  const handleExportPdf = () => {
+    const doc = new jsPDF();
+    doc.text('Customer Report', 14, 15);
+
+    autoTable(doc, {
+      startY: 20,
+      head: [['Name', 'Email', 'Orders', 'Total Spent', 'Last Order']],
+      body: customers.map((c) => [
+        c.name,
+        c.email,
+        c.totalOrders,
+        `₹ ${c.totalAmount}`,
+        new Date(c.latestOrderDate).toLocaleDateString('en-GB').replace(/\//g, '-')
+      ]),
+    });
+
+    doc.save('Customer-Details.pdf');
+  };
+
+
+  const handleExportExcel = () => {
+    const data = customers.map((c) => ({
+      Name: c.name,
+      Email: c.email,
+      'Total Orders': c.totalOrders,
+      'Total Spent (₹)': c.totalAmount,
+      'Last Order Date': new Date(c.latestOrderDate).toLocaleDateString('en-GB').replace(/\//g, '-'),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Customer');
+    const excelbuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelbuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'Customer-Details.xlsx');
+  }
 
   return (
     <Sidebar>
@@ -90,10 +135,32 @@ const Customers = ({ customers, stats }) => {
             />
 
             {/* Export */}
-            <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition hover:cursor-pointer">
-              <LuDownload className="w-4 h-4 mr-2" />
-              Export
-            </button>
+            <div>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition hover:cursor-pointer"
+              >
+                <LuDownload className="w-4 h-4 mr-2" />
+                Export
+              </button>
+              {isOpen && (
+                <div className="absolute right-10 mt-2 w-40 bg-gray-100 border border-gray-200 rounded shadow-2xl z-50">
+                  <button className="w-full px-4 py-2 hover:cursor-pointer text-sm text-left hover:bg-gray-100 flex items-center font-semibold"
+                    onClick={handleExportPdf}
+                  >
+                    <LuFileDown className="w-4 h-4 mr-2" />
+                    Export As Pdf
+                  </button>
+                  <button
+                    onClick={handleExportExcel}
+                    className="w-full font-semibold hover:cursor-pointer px-4 py-2 text-sm text-left hover:bg-gray-100 flex items-center"
+                  >
+                    <LuSheet className="w-4 h-4 mr-2" />
+                    Export As Excel
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
