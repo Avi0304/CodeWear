@@ -146,7 +146,7 @@ const Sidebar = ({ children }) => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="flex items-center px-3 py-1.5 border border-gray-200 rounded text-sm text-gray-700 hover:shadow hover:bg-gray-50 font-semibold"
               >
-                <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center mr-2 text-xs font-bold text-white">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-r  from-pink-500 to-rose-600 flex items-center justify-center mr-2 text-xs font-bold text-white">
                   AP
                 </div>
                 <span className="hidden sm:inline">{username}</span>

@@ -12,7 +12,8 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if(localStorage.getItem("myuser")){
+    const myuser = JSON.parse(localStorage.getItem('myuser'));
+    if(myuser.token && myuser.role === 'customer'){
       router.push("/")
     }
   },[])
@@ -44,7 +45,7 @@ const Login = () => {
     setEmail('');
     setPassword('');
     if (response.success) {
-      localStorage.setItem('myuser', JSON.stringify({token: response.token, email: response.email}));
+      localStorage.setItem('myuser', JSON.stringify({token: response.token, email: response.email, role: response.role}));
       localStorage.setItem('userId', response.userId);
       toast.success('You Login to your Account Sucessfully...', {
         position: "top-left",

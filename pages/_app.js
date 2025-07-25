@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
     router.events.on('routeChangeComplete', () => {
       setProgress(100);
     })
-    console.log("Hey, i am app.js");
+
     try {
       if (localStorage.getItem("cart")) {
         setCart(JSON.parse(localStorage.getItem("cart")))
@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }) {
     }
     const myuser = JSON.parse(localStorage.getItem("myuser"))
     if (myuser) {
-      setUser({ value: myuser.token, email: myuser.email })
+      setUser({ value: myuser.token, email: myuser.email, role: myuser.role })
       setKey(Math.random())
     }
 

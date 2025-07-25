@@ -1,11 +1,35 @@
-import React from 'react';
-import Order from '../models/Order';
-import mongoose from 'mongoose';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 
-const Orders = ({ order }) => {
+const Orders = () => {
+
+    const [order, setOrder] = useState([]);
+    const router = useRouter();
+
+    useEffect(() => {
+
+        const myuser = JSON.parse(localStorage.getItem('myuser'))
+        if(!myuser?.email){
+            router.push('/login');
+        }
+
+        const fetchOrder = async() => {
+            try {
+                const res = await fetch(`http://localhost:3000/api/getOrders?email=${myuser.email}`);
+                const data = await res.json();
+                setOrder(data.orders || []);
+            } catch (error) {
+                console.error('Error fetching orders:', err);
+            }
+        }
+
+        fetchOrder();
+    },[])
+
+
     return (
         <>
             <Head>
@@ -117,15 +141,15 @@ const Orders = ({ order }) => {
     );
 };
 
-export async function getServerSideProps(context) {
-    if (!mongoose.connections[0].readyState) {
-        await mongoose.connect('mongodb://localhost:27017/codewears');
-    }
+// export async function getServerSideProps(context) {
+//     if (!mongoose.connections[0].readyState) {
+//         await mongoose.connect('mongodb://localhost:27017/codewears');
+//     }
 
-    let fetchorder = await Order.find({ paymentStatus: "paid" });
-    return {
-        props: { order: JSON.parse(JSON.stringify(fetchorder)) },
-    };
-}
+//     let fetchorder = await Order.find({ paymentStatus: "paid" });
+//     return {
+//         props: { order: JSON.parse(JSON.stringify(fetchorder)) },
+//     };
+// }
 
 export default Orders;

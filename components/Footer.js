@@ -31,6 +31,15 @@ const Footer = () => {
               <li>
                 <Link href={'/mug'} className="text-gray-600 hover:text-gray-800">Mugs</Link>
               </li>
+              <li>
+                <Link href={'/caps'} className="text-gray-600 hover:text-gray-800">Caps</Link>
+              </li>
+              <li>
+                <Link href={'/mousepad'} className="text-gray-600 hover:text-gray-800">MousePads</Link>
+              </li>
+              <li>
+                <Link href={'/sweatshirt'} className="text-gray-600 hover:text-gray-800">SweatShirts</Link>
+              </li>
             </nav>
           </div>
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">

@@ -15,6 +15,7 @@ import mongoose from 'mongoose';
 import Product from '@/models/Product';
 import Head from 'next/head';
 import withAdminAuth from '@/components/withAdminAuth';
+import { toast, Bounce } from 'react-toastify';
 
 
 
@@ -72,9 +73,9 @@ const Products = ({ products }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         console.log("Product data in form: ", newProduct);
-        
+
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/addproduct`, {
             method: 'POST',
@@ -83,10 +84,20 @@ const Products = ({ products }) => {
         });
 
         if (res.ok) {
-            console.log(res);
+            toast.success('Product Added Sucessfully...', {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             setOpen(false);
-            setNewProduct({ title: '', category: '', price: '', avaiableQty: '', status: 'stock' });
-          
+            setNewProduct({ title: '', category: '', price: '', avaiableQty: '', img: '', status: 'stock', slug: '', size: '', color: '', desc: '' });
+
         }
     };
 
@@ -241,7 +252,7 @@ const Products = ({ products }) => {
                             onChange={handleChange}
                             margin='dense'
                         />
-                         <TextField
+                        <TextField
                             label="Size"
                             name="size"
                             fullWidth
@@ -249,7 +260,7 @@ const Products = ({ products }) => {
                             onChange={handleChange}
                             margin='dense'
                         />
-                         <TextField
+                        <TextField
                             label="Color"
                             name="color"
                             fullWidth

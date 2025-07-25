@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 
 
-export default function Success() {
+export default function Success({clearCart}) {
   const router = useRouter();
   const [orderId, setOrderId] = useState('');
   const [amount, setAmount] = useState('');
@@ -52,7 +52,10 @@ export default function Success() {
     };
 
     updateOrderStatus();
+    clearCart();
   }, [router.query.session_id]);
+
+ 
 
   return (
     <>
