@@ -13,10 +13,11 @@ const Login = () => {
 
   useEffect(() => {
     const myuser = JSON.parse(localStorage.getItem('myuser'));
-    if(myuser.token && myuser.role === 'customer'){
-      router.push("/")
+    if (myuser && myuser.token && myuser.role === 'customer') {
+      router.push("/");
     }
-  },[])
+  }, []);
+
 
   const onchange = (e) => {
     if (e.target.name == 'email') {
@@ -45,7 +46,7 @@ const Login = () => {
     setEmail('');
     setPassword('');
     if (response.success) {
-      localStorage.setItem('myuser', JSON.stringify({token: response.token, email: response.email, role: response.role}));
+      localStorage.setItem('myuser', JSON.stringify({ token: response.token, email: response.email, role: response.role }));
       localStorage.setItem('userId', response.userId);
       toast.success('You Login to your Account Sucessfully...', {
         position: "top-left",
@@ -77,7 +78,7 @@ const Login = () => {
         transition: Bounce,
       });
       console.log("Error in Logging: ", error);
-      
+
     }
 
 
