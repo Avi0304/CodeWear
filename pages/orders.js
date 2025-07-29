@@ -18,7 +18,7 @@ const Orders = () => {
 
         const fetchOrder = async() => {
             try {
-                const res = await fetch(`http://localhost:3000/api/getOrders?email=${myuser.email}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getOrders?email=${myuser.email}`);
                 const data = await res.json();
                 setOrder(data.orders || []);
             } catch (error) {
