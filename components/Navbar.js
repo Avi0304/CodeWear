@@ -20,7 +20,7 @@ const Navbar = ({ Logout, user, cart, AddtoCart, removeFromCart, clearCart, subt
 
   useEffect(() => {
     console.log("User is : ", user);
-    
+
     Object.keys(cart).length !== 0 && setSideBar(true)
 
     let exempted = ['/checkout', '/order', '/orders']
@@ -48,17 +48,29 @@ const Navbar = ({ Logout, user, cart, AddtoCart, removeFromCart, clearCart, subt
         <Link href={'/'}> <Image src={"/logo.png"} width={200} height={40} alt='codewear' /></Link>
       </div>
 
-      <div className='nav '>
-        <ul className='flex flex-wrap space-x-6 items-center font-bold md:text-md sm:text-base sm:space-x-4'>
+      <div className='nav'>
+        <ul className='flex flex-wrap items-center justify-center sm:justify-center md:justify-start space-x-6 sm:space-x-4 font-bold md:text-md sm:text-base'>
           <Link href="/tshirt">
             <li className={`hover:text-pink-700 ${router.pathname === '/tshirt' ? 'text-pink-600' : ''}`}>Tshirt</li>
           </Link>
-          <Link href={'/hodiees'}><li className={`hover:text-pink-700 ${router.pathname === '/hodiees' ? 'text-pink-600' : ''}`}>Hodiees</li></Link>
-          <Link href={'/sticker'}><li className={`hover:text-pink-700 ${router.pathname === '/sticker' ? 'text-pink-600' : ''}`}>Stickers</li></Link>
-          <Link href={'/mug'}><li className={`hover:text-pink-700 ${router.pathname === '/mug' ? 'text-pink-600' : ''}`}>Mugs</li></Link>
-          <Link href={'/mousepad'}><li className={`hover:text-pink-700 ${router.pathname === '/mousepad' ? 'text-pink-600' : ''}`}>MousePads</li></Link>
-          <Link href={'/caps'}><li className={`hover:text-pink-700 ${router.pathname === '/caps' ? 'text-pink-600' : ''}`}>Caps</li></Link>
-          <Link href={'/sweatshirt'}><li className={`hover:text-pink-700 ${router.pathname === '/sweatshirt' ? 'text-pink-600' : ''}`}>Sweatshirts</li></Link>
+          <Link href={'/hodiees'}>
+            <li className={`hover:text-pink-700 ${router.pathname === '/hodiees' ? 'text-pink-600' : ''}`}>Hodiees</li>
+          </Link>
+          <Link href={'/sticker'}>
+            <li className={`hover:text-pink-700 ${router.pathname === '/sticker' ? 'text-pink-600' : ''}`}>Stickers</li>
+          </Link>
+          <Link href={'/mug'}>
+            <li className={`hover:text-pink-700 ${router.pathname === '/mug' ? 'text-pink-600' : ''}`}>Mugs</li>
+          </Link>
+          <Link href={'/mousepad'}>
+            <li className={`hover:text-pink-700 ${router.pathname === '/mousepad' ? 'text-pink-600' : ''}`}>MousePads</li>
+          </Link>
+          <Link href={'/caps'}>
+            <li className={`hover:text-pink-700 ${router.pathname === '/caps' ? 'text-pink-600' : ''}`}>Caps</li>
+          </Link>
+          <Link href={'/sweatshirt'}>
+            <li className={`hover:text-pink-700 ${router.pathname === '/sweatshirt' ? 'text-pink-600' : ''}`}>Sweatshirts</li>
+          </Link>
         </ul>
       </div>
 

@@ -32,7 +32,7 @@ const MyOrder = ({ order, clearCart }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="text-gray-600 body-font overflow-hidden">
-        <div className="container px-5 py-24 mx-auto ml-15 mr-15">
+        <div className="container  px-4 sm:px-5 py-10 sm:py-24 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             <div className="lg:w-1/2 w-full lg:pr-10 lg:py-1  mb-6 lg:mb-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">CodesWear.com</h2>
