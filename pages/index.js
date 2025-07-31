@@ -186,7 +186,7 @@ export default function Home() {
           ))}
 
           {/* Last two items centered in same row */}
-          <div className="md:col-span-3 flex justify-center gap-6">
+          <div className="md:col-span-3 flex flex-wrap justify-center gap-6">
             {items.slice(-2).map((item, index) => (
               <motion.div
                 key={index}

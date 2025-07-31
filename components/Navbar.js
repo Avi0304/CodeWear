@@ -49,7 +49,7 @@ const Navbar = ({ Logout, user, cart, AddtoCart, removeFromCart, clearCart, subt
       </div>
 
       <div className='nav'>
-        <ul className='flex flex-wrap items-center justify-center sm:justify-center md:justify-start space-x-6 sm:space-x-4 font-bold md:text-md sm:text-base'>
+        <ul className='flex flex-wrap lg:mt-0 items-center justify-center sm:justify-center md:justify-start space-x-6 sm:space-x-4 font-bold md:text-md sm:text-base mt-2 space-y-0.5'>
           <Link href="/tshirt">
             <li className={`hover:text-pink-700 ${router.pathname === '/tshirt' ? 'text-pink-600' : ''}`}>Tshirt</li>
           </Link>

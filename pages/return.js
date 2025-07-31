@@ -26,7 +26,7 @@ const Return = () => {
                         <h2 className="text-3xl font-bold text-center mb-12">Return Policy Overview</h2>
                     </div>
 
-                    <div className='grid md: grid-cols-3 gap-8'>
+                    <div className='grid md:grid-cols-3 gap-8'>
                         <div className="bg-white border border-gray-200 rounded-xl text-center p-6 shadow-lg hover:shadow-2xl transition duration-300">
                             <div className="w-12 h-12 flex items-center justify-center mx-auto mb-4">
                                 <LuClock className='w-10 h-10 text-pink-500' />
@@ -66,7 +66,7 @@ const Return = () => {
                         <h2 className="text-3xl font-bold text-center mb-12">How to Return an Item</h2>
                     </div>
 
-                    <div className='grid md: grid-cols-4 gap-8'>
+                    <div className='grid md:grid-cols-4 gap-8'>
                         <div className="bg-white border border-gray-200 rounded-xl text-center p-6 shadow-lg hover:shadow-2xl transition duration-300 relative">
                             <div className="absolute -top-3 -right-3 text-lg font-bold bg-pink-100 rounded-full h-8 w-8 text-pink-600">
                                 1
@@ -129,7 +129,7 @@ const Return = () => {
                         <h2 className="text-3xl font-bold text-center mb-12">Product Specific Return Condtions</h2>
                     </div>
 
-                    <div className='grid md: grid-cols-3 gap-8'>
+                    <div className='grid md:grid-cols-3 gap-8'>
                         <div className="bg-white border border-gray-200 rounded-xl text-center p-6 shadow-lg hover:shadow-2xl transition duration-300 relative">
                             <div className='flex space-x-4 items-center'>
                                 <LuPackage className="w-5 h-5 text-pink-500" />
